@@ -9,6 +9,7 @@ datasource db {
 
 model Job {
   id          String   @id @default(cuid())
+
   ats         String
   company     String
   title       String
@@ -17,6 +18,8 @@ model Job {
   applyUrl    String
 
   hash        String   @unique
+
+  postedAt    DateTime?
   firstSeen   DateTime
   lastSeen    DateTime
   isActive    Boolean  @default(true)
@@ -27,3 +30,4 @@ model Job {
   @@index([company])
   @@index([isActive])
 }
+
