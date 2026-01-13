@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+   
+}
+
+model Job {
+  id          String   @id @default(cuid())
+  ats         String
+  company     String
+  title       String
+  location    String?
+  description String?
+  applyUrl    String
+
+  hash        String   @unique
+  firstSeen   DateTime
+  lastSeen    DateTime
+  isActive    Boolean  @default(true)
+
+  createdAt   DateTime @default(now())
+
+  @@index([title])
+  @@index([company])
+  @@index([isActive])
+}
