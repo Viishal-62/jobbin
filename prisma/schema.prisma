@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  
 }
 
 datasource db {
@@ -7,14 +8,21 @@ datasource db {
    
 }
 
+ 
+
 model Job {
   id          String   @id @default(cuid())
 
   ats         String
   company     String
+  logo        String?
   title       String
   location    String?
   description String?
+  category    String?
+  tags        Json?
+  jobtype     String?
+  salary      String?
   applyUrl    String
 
   hash        String   @unique

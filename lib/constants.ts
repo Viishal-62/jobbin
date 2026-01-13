@@ -180,7 +180,7 @@ const lever = [
   { name: "Mongoose", slug: "mongoose" },
 ];
 
-// SMALLER STARTUPS (Workable ATS)
+ 
 const workable = [
   // GEN AI
   { name: "Jasper AI", slug: "jasper" },

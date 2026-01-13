@@ -1,9 +1,11 @@
+import { NextResponse } from "next/server";
 
 
 function clean(html: string) {
   return html?.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim().slice(0, 400);
 }
 export const APIsCalls = {
+
     fetchGreenhouse : async function (slug: string, company: string) {
   try {
     const res = await fetch(
@@ -74,9 +76,35 @@ fetchLever : async function (slug: string, company: string) {
   } catch {
     return [];
   }
+},
+
+fetchRemotive:  async function () {
+  try {
+    const res = await fetch(
+      `https://remotive.com/api/remote-jobs`,
+      { cache: "no-store" }
+    );
+    if (!res.ok) return [];
+
+    const data = await res.json();
+
+     return data.results.map((job: any) => ({
+      ats: "workable",
+      company : job.company_name || "N/A",
+      logo  : job.company_logo || "",
+      tags : job.tags || [],
+      title: job.title,
+      jobtype : job.job_type,
+      location: job.remote ? "Remote" : job.location?.country || job.candidate_required_location || "Remote / Unknown",
+      description: clean(job.description),
+      applyUrl: job.url,
+      postedAt: new Date(job.created_at).toISOString(),
+    }));
+
+
+}catch{
+   
+   return []
 }
 }
-
-
-
-
+}
