@@ -1,19 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
-import { greenhouse, lever, workable } from "@/lib/constants";
-import { APIsCalls } from "@/lib/calls";
-import makeHash from "@/lib/hash";
-import { prisma } from "@/lib/db";
+import { greenhouse, lever, workable } from "../lib/constants";
+import { APIsCalls } from "../lib/calls";
+import makeHash from "../lib/hash";
+import { prisma } from "../lib/db";
 
-const { fetchGreenhouse, fetchLever, fetchWorkable } = APIsCalls;
+const { fetchGreenhouse, fetchLever, fetchWorkable , fetchRemotive } = APIsCalls;
 
 export async function fetchJobs() {
-  const [gh, lv, wk] = await Promise.all([
+  const [gh, lv, wk , re] = await Promise.all([
     Promise.all(greenhouse.map(c => fetchGreenhouse(c.slug, c.name))),
     Promise.all(lever.map(c => fetchLever(c.slug, c.name))),
     Promise.all(workable.map(c => fetchWorkable(c.slug, c.name))),
+    fetchRemotive()
   ]);
 
-  const allJobs = [...gh.flat(), ...lv.flat(), ...wk.flat()];
+  const allJobs = [...gh.flat(), ...lv.flat(), ...wk.flat() , ...re];
+
+  console.log("allJobs", allJobs);
 
   let created = 0;
   let updated = 0;
@@ -28,6 +31,10 @@ export async function fetchJobs() {
         ats: job.ats,
         company: job.company,
         title: job.title,
+        logo : job.logo,
+        category: job.category,
+        tags: job.tags,
+        jobtype: job.jobtype,
         location: job.location,
         description: job.description,
         applyUrl: job.applyUrl,

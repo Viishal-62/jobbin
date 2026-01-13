@@ -74,7 +74,7 @@ export default function JobGrid({ initialJobs }: { initialJobs: any[] }) {
               <div className="relative">
                 <div className="flex justify-between items-start mb-6">
                   <div className="w-12 h-12 rounded-2xl bg-zinc-950 border border-white/[0.05] flex items-center justify-center text-2xl shadow-2xl group-hover:scale-110 transition-transform duration-500">
-                    {job.logo || "💼"}
+                    {"💼"}
                   </div>
                   <button 
                     onClick={() => toggleSave(job.id)}

@@ -78,33 +78,32 @@ fetchLever : async function (slug: string, company: string) {
   }
 },
 
-fetchRemotive:  async function () {
+fetchRemotive: async function () {
   try {
-    const res = await fetch(
-      `https://remotive.com/api/remote-jobs`,
-      { cache: "no-store" }
-    );
+    const res = await fetch("https://remotive.com/api/remote-jobs", {
+      cache: "no-store",
+    });
     if (!res.ok) return [];
 
     const data = await res.json();
 
-     return data.results.map((job: any) => ({
-      ats: "workable",
-      company : job.company_name || "N/A",
-      logo  : job.company_logo || "",
-      tags : job.tags || [],
+    return data.jobs.map((job: any) => ({
+      ats: "remotive",
+      company: job.company_name || "Unknown",
       title: job.title,
-      jobtype : job.job_type,
-      location: job.remote ? "Remote" : job.location?.country || job.candidate_required_location || "Remote / Unknown",
+      location: job.candidate_required_location || "Remote",
       description: clean(job.description),
       applyUrl: job.url,
-      postedAt: new Date(job.created_at).toISOString(),
+      logo: job.company_logo || null,
+      tags: job.tags || [],
+      jobType: job.job_type || null,
+      postedAt: job.publication_date
+        ? new Date(job.publication_date).toISOString()
+        : null,
     }));
-
-
-}catch{
-   
-   return []
+  } catch {
+    return [];
+  }
 }
-}
+
 }
