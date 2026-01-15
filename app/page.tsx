@@ -4,7 +4,7 @@ import JobGrid from './api/components/JobsGrid';
 
 async function getJobs() {
   try {
-    const res = await fetch("http://localhost:3000/api/jobs", { cache: "no-store" });
+    const res = await fetch("https://jobbin-9luf.vercel.app/api/jobs", { cache: "no-store" });
     if (!res.ok) throw new Error("Failed to fetch");
     return res.json();
   } catch (e) {
